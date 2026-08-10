@@ -1,5 +1,6 @@
 /dist/
 /dist-ts/
+/src/windows-interface/windows-interface.js
 /node_modules/
 qjs.exe
 input.csv
