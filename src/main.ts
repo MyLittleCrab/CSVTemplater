@@ -71,6 +71,10 @@ function main() {
     args = openWinInterface();
   }
 
+  if (args.separator === '\\t') {
+    args.separator = '\t';
+  }
+
   if (!args.csvFile || !args.templateFile) {
     const usage = `Usage:
         -i <csv file>

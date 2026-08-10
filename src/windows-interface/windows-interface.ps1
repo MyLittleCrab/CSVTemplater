@@ -1,4 +1,3 @@
-export default `
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName System.Drawing
 
@@ -122,4 +121,3 @@ $cancelButton.Add_Click({
 $form.Controls.Add($cancelButton)
 
 $form.ShowDialog() | Out-Null
-`;
