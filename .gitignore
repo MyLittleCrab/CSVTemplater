@@ -1,4 +1,5 @@
 /dist/
+/dist-ts/
 /node_modules/
 qjs.exe
 input.csv

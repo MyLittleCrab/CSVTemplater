@@ -14,12 +14,13 @@ import * as os from 'qjs:os';
 import { Buffer } from 'buffer';
 import iconv from 'iconv-lite';
 import openWinInterface from './windows-interface/WindownInterfaceWrapper';
+import type { AppArguments } from './types';
 
-globalThis.Buffer = Buffer;
+(globalThis as any).Buffer = Buffer;
 
-function parseArguments() {
-  let csvFile = null;
-  let templateFile = null;
+function parseArguments(): AppArguments {
+  let csvFile: string | null = null;
+  let templateFile: string | null = null;
   let outputFile = 'output.txt';
   let separator = '\t';
   let inputEncoding = 'utf16-le';
@@ -38,35 +39,35 @@ function parseArguments() {
       separator = scriptArgs[++i];
     } else if (arg === '-ie') {
       inputEncoding = scriptArgs[++i];
-    } else if (arg === '-oe'){
+    } else if (arg === '-oe') {
       outputEncoding = scriptArgs[++i];
     }
   }
   return { csvFile, templateFile, outputFile, separator, inputEncoding, outputEncoding };
 }
 
-function readFileToBuffer(filename) {
-  let fd = os.open(filename, os.O_RDONLY);
+function readFileToBuffer(filename: string): ArrayBuffer {
+  const fd = os.open(filename, os.O_RDONLY);
   if (fd < 0) throw new Error('Не удалось открыть файл');
 
-  let size = os.seek(fd, 0, std.SEEK_END);
+  const size = os.seek(fd, 0, std.SEEK_END);
   os.seek(fd, 0, std.SEEK_SET);
 
-  let buffer = new ArrayBuffer(size);
-  let bytesRead = os.read(fd, buffer, 0, size);
+  const buffer = new ArrayBuffer(size);
+  os.read(fd, buffer, 0, size);
   os.close(fd);
   return buffer;
 }
 
-function decodeText(buffer, encoding) {
-  let text = iconv.decode(buffer, encoding);
+function decodeText(buffer: ArrayBuffer, encoding: string): string {
+  const text = iconv.decode(buffer, encoding);
   return text.charCodeAt(0) === 0xfeff ? text.slice(1) : text;
 }
 
 function main() {
-  let args = parseArguments();
+  let args: AppArguments = parseArguments();
 
-  if ((!args.csvFile || !args.templateFile ) && os.platform === 'win32'){
+  if ((!args.csvFile || !args.templateFile) && os.platform === 'win32') {
     args = openWinInterface();
   }
 
@@ -115,6 +116,5 @@ function main() {
 
   console.log(`Output written to ${args.outputFile}`);
 }
-
 
 main();
