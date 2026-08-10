@@ -12,13 +12,15 @@ A utility for generating text from a CSV file using a template. The script reads
 ## Arguments
 
 ```
-csv_file template_file [output_file] [separator]
+-i <csv_file> -t <template_file> [-o <output_file>] [-s <separator>] [-ie <input encoding>] [-oe <output encoding>]
 ```
 
-- `csv_file` — the name of the CSV file.
-- `template_file` — the name of the template file.
-- `output_file` — the name of the output file (default is `output.txt`).
-- `separator` — the CSV field separator (default is tab `\t`).
+- `-i` -- the name of the CSV file.
+- `-t` -- the name of the template file.
+- `-o` -- the name of the output file (default is `output.txt`).
+- `-s` -- the CSV field separator (default is tab `\t`).
+- `-ie` -- encoding of csv file (iconv.Encoding default is `utf16-le`)
+- `-oe` -- encoding of output file (iconv.Encoding default is `win1251`)
 
 ## Template example
 
@@ -46,13 +48,13 @@ If you use semicolon or comma separators, pass the desired separator as the four
 ## Run example
 
 ```
-qjs main.js data.csv template.txt result.txt "\t"
+csvtemplater -i data.csv -t template.txt -o result.txt -s "\t"
 ```
 
 Or, if you want to use `;` as a separator:
 
 ```
-qjs main.js data.csv template.txt result.txt ";"
+csvtemplater -i data.csv -t template.txt -o result.txt -s ";"
 ```
 
 ## Result
@@ -76,11 +78,6 @@ City: Saint Petersburg
 - If a tag value is missing, the template retains an empty string for that placeholder.
 - The template can contain any other text or characters.
 
-## Requirements
-
-- QuickJS with support for the `qjs:std` module.
-- Run the script with `qjs main.js ...`.
-
 ---
 
 # CSVtemplater
@@ -97,13 +94,15 @@ City: Saint Petersburg
 ## Аргументы
 
 ```
-csv_file template_file [output_file] [separator]
+-i <csv_file> -t <template_file> [-o <output_file>] [-s <separator>]
 ```
 
-- `csv_file` — имя CSV-файла.
-- `template_file` — имя шаблонного файла.
-- `output_file` — имя выходного файла (по умолчанию `output.txt`).
-- `separator` — разделитель полей в CSV (по умолчанию табуляция `\t`).
+- `-i` -- имя CSV-файла.
+- `-t` -- имя шаблонного файла.
+- `-o` -- имя выходного файла (по умолчанию `output.txt`).
+- `-s` -- разделитель полей в CSV (по умолчанию табуляция `\t`).
+- `-ie` -- кодировка входящего CSV файла (iconv.Encoding default is `utf16-le`)
+- `-oe` -- кодировка выходного файла (iconv.Encoding default is `win1251`)
 
 ## Пример шаблона
 
@@ -131,13 +130,13 @@ name\temail\tcity
 ## Пример запуска
 
 ```
-qjs main.js data.csv template.txt result.txt "\t"
+csvtemplater -i data.csv -t template.txt -o result.txt -s "\t"
 ```
 
 Или, если вы хотите использовать разделитель `;`:
 
 ```
-qjs main.js data.csv template.txt result.txt ";"
+csvtemplater -i data.csv -t template.txt -o result.txt -s ";"
 ```
 
 ## Результат
@@ -164,4 +163,4 @@ Email: olga@example.com
 ## Требования
 
 - QuickJS с поддержкой модуля `qjs:std`.
-- Скрипт запускается командой `qjs main.js ...`.
+- Скрипт запускается командой `csvtemplater ...`.

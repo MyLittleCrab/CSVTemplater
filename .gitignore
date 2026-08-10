@@ -1,0 +1,7 @@
+/dist/
+/node_modules/
+qjs.exe
+input.csv
+output.txt
+csvtemplater.exe
+template.sql
