@@ -4,7 +4,10 @@
   "description": "A utility for generating text from a CSV file using a template. The script reads a CSV table, replaces template tags like `{{column_name}}` with values from each row, and writes the result to an output file.",
   "main": "main.js",
   "scripts": {
-    "build": "node -e \"require('fs').mkdirSync('dist',{recursive:true})\" && npx esbuild src/main.js --bundle --minify --outfile=dist/bundle.js --format=esm --platform=neutral --target=es2020 --main-fields=module,main --alias:buffer=buffer --alias:string_decoder=string_decoder --external:qjs:std --external:qjs:os",
+    "build-mkdir": "node -e \"require('fs').mkdirSync('dist',{recursive:true})\"",
+    "build-mkbundle": "npx esbuild src/main.js --bundle --minify --outfile=dist/bundle.js --format=esm --platform=neutral --target=es2020 --main-fields=module,main --alias:buffer=buffer --alias:string_decoder=string_decoder --external:qjs:std --external:qjs:os",
+    "build-mkbinary": "qjs -c dist/bundle.js -o dist/csvtemplater.exe",
+    "build": "npm run build-mkdir && npm run build-mkbundle && npm run build-mkbinary",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Roman A. Nosov",
