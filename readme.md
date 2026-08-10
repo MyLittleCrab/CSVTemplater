@@ -57,6 +57,12 @@ Or, if you want to use `;` as a separator:
 csvtemplater -i data.csv -t template.txt -o result.txt -s ";"
 ```
 
+## Windows usage
+
+If you simply run the binary without arguments on Windows, a setup dialog will open so you can configure the input files and output settings interactively.
+
+![CSVtemplater setup dialog](github-assets/screenshot.png)
+
 ## Result
 
 The `result.txt` file will contain:
@@ -138,6 +144,12 @@ csvtemplater -i data.csv -t template.txt -o result.txt -s "\t"
 ```
 csvtemplater -i data.csv -t template.txt -o result.txt -s ";"
 ```
+
+## Использование в Windows
+
+Если просто запустить бинарник без аргументов в Windows, откроется диалог настройки, где можно выбрать файлы ввода и параметры вывода в интерактивном режиме.
+
+![Диалог настройки CSVtemplater](github-assets/screenshot.png)
 
 ## Результат
 
