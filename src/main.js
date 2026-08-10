@@ -13,6 +13,7 @@ import * as std from 'qjs:std';
 import * as os from 'qjs:os';
 import { Buffer } from 'buffer';
 import iconv from 'iconv-lite';
+import openWinInterface from './windows-interface/WindownInterfaceWrapper';
 
 globalThis.Buffer = Buffer;
 
@@ -63,10 +64,13 @@ function decodeText(buffer, encoding) {
 }
 
 function main() {
+  let args = parseArguments();
 
-  const { csvFile, templateFile, outputFile, separator, inputEncoding, outputEncoding } = parseArguments();
+  if ((!args.csvFile || !args.templateFile ) && os.platform === 'win32'){
+    args = openWinInterface();
+  }
 
-  if (!csvFile || !templateFile) {
+  if (!args.csvFile || !args.templateFile) {
     const usage = `Usage:
         -i <csv file>
         -t <template file>
@@ -78,15 +82,17 @@ function main() {
     return;
   }
 
-  const csvText = decodeText(readFileToBuffer(csvFile), inputEncoding);
-  const templateText = std.loadFile(templateFile);
+  console.log(JSON.stringify(args));
+
+  const csvText = decodeText(readFileToBuffer(args.csvFile), args.inputEncoding);
+  const templateText = std.loadFile(args.templateFile);
 
   const csvContent = csvText.split('\n');
   const csvHeader = csvContent[0]
-    .split(separator)
+    .split(args.separator)
     .map(header => header.trim().replace(/"/g, '').replace(/\s+/g, '_').toLowerCase());
 
-  const csvRows = csvContent.slice(1).map(row => row.split(separator));
+  const csvRows = csvContent.slice(1).map(row => row.split(args.separator));
 
   const outputLines = csvRows.map(row => {
     if (row.length === 0) {
@@ -105,9 +111,9 @@ function main() {
     return outputLine;
   });
 
-  std.writeFile(outputFile, iconv.encode(outputLines.join('\n'), outputEncoding));
+  std.writeFile(args.outputFile, iconv.encode(outputLines.join('\n'), args.outputEncoding));
 
-  console.log(`Output written to ${outputFile}`);
+  console.log(`Output written to ${args.outputFile}`);
 }
 
 
