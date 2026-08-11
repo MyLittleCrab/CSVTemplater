@@ -81,7 +81,7 @@ function main() {
         -t <template file>
         [-o <output file>]
         [-s <separator> default '\\t']
-        [-ie <input encoding> default 'UTF16LE']
+        [-ie <input encoding> default 'utf16-le']
         [-oe <output encoding> default 'win1251']`;
     console.log(usage);
     return;
